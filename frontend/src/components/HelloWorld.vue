@@ -3,20 +3,27 @@
     <h1>{{ msg }}</h1>
     <h3>Geolocation</h3>
     <p v-if="error">Error: {{ error }}</p>
-    <p v-else-if="locatedAt">Located at: {{ locatedAt }}</p>
+    <p v-else-if="locatedAt">Located at: {{ new Date(locatedAt) }}</p>
     <p v-else>Locating...</p>
     <p>Latitude: {{ coords.latitude }}</p>
     <p>Longitude: {{ coords.longitude }}</p>
   </div>
+  <KakaoMap :lat="coords.latitude" :lon="coords.longitude" />
 </template>
 
 <script>
 import { useGeolocation } from '@vueuse/core';
+import KakaoMap from './KakaoMap.vue';
 
 const { coords, locatedAt, error, resume, pause } = useGeolocation();
 
 export default {
   name: 'HelloWorld',
+
+  components: {
+    KakaoMap,
+  },
+
   props: {
     msg: String,
   },
