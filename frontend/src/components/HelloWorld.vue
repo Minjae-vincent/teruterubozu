@@ -8,7 +8,7 @@
     <p>Latitude: {{ coords.latitude }}</p>
     <p>Longitude: {{ coords.longitude }}</p>
   </div>
-  <KakaoMap :lat="coords.latitude" :lon="coords.longitude" />
+  <KakaoMap v-if="locatedAt" :lat="coords.latitude" :lon="coords.longitude" />
 </template>
 
 <script>
@@ -33,7 +33,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
