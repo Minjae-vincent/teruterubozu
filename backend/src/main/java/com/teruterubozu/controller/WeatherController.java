@@ -1,5 +1,7 @@
 package com.teruterubozu.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,10 @@ public class WeatherController {
     @Autowired
     private weatherService weatherService;    
     @PostMapping("/api/weather")
-    public void postWeather(@RequestBody weatherDTO weatherDTO) {
-        weatherService.computeGrid(weatherDTO.getLat(), weatherDTO.getLon());
+    public void queryWeather(@RequestBody weatherDTO weatherDTO) {
+        weatherDTO grid = weatherService.computeGrid(weatherDTO.getLat(), weatherDTO.getLon());
+        Map<String, Object> weather = weatherService.getWeather(grid);
+        
     }
 
 }

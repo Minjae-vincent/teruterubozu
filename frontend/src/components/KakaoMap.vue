@@ -2,6 +2,7 @@
   <div>
     <h2>카카오 맵 보기</h2>
     <div id="map"></div>
+    <button @click="getWeather">날씨 가져오기</button>
   </div>
 </template>
 <style scoped>
@@ -13,6 +14,8 @@
 }
 </style>
 <script>
+import axios from 'axios';
+
 export default {
   name: 'KakaoMap',
   props: {
@@ -62,6 +65,12 @@ export default {
       });
 
       marker.setMap(this.map);
+    },
+    getWeather() {
+      axios.post('http://localhost:9000/api/weather', {
+        lat: this.lat,
+        lon: this.lon,
+      });
     },
   },
 };
