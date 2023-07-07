@@ -1,9 +1,10 @@
 package com.teruterubozu.service;
 
 import java.util.Date;
-import java.util.Map;
 
-import org.apache.tomcat.util.json.JSONParser;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,14 +12,16 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.io.BufferedReader;
-import com.teruterubozu.domain.weatherDTO;
+import com.teruterubozu.domain.Latlon;
+import com.teruterubozu.domain.Result;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class weatherService {
-    public weatherDTO computeGrid(double lat, double lon) {
-        weatherDTO gpt = new weatherDTO();
+    public Latlon computeGrid(double lat, double lon) {
+        Latlon gpt = new Latlon();
 
         double RE = 6371.00877; // 지구 반경(km)
         double GRID = 5.0; // 격자 간격(km)
@@ -56,12 +59,14 @@ public class weatherService {
 
         return gpt;
     }
-    public Map<String, Object> getWeather(weatherDTO grid) {
+    public Result getWeather(Latlon grid) {
         Date tmp = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String base_date = format.format(tmp);
         format = new SimpleDateFormat("HHmm");
         String base_time = format.format(tmp);
+
+        Result result = new Result();
 
         base_time = String.valueOf(Integer.parseInt(base_time.substring(0, 2)) - 1) + "00";
                 
@@ -94,18 +99,50 @@ public class weatherService {
             rd.close();
             conn.disconnect();
 
-            JSONParser jsonParser = new JSONParser(sb.toString());
-            Map<String, Object> weather = jsonParser.parseObject();
+            
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(sb.toString());
+
+            JSONObject response = (JSONObject)jsonObject.get("response");
+            JSONObject header = (JSONObject)response.get("header");
+
+            if(!header.get("resultCode").equals("00")) {
+                result.setResultCode((String)header.get("resultCode"));
+                result.setResultMsg((String)header.get("resultMsg"));
+                return result;
+            }
+
+            JSONObject body = (JSONObject)response.get("body");
+            JSONObject items = (JSONObject)body.get("items");
+            JSONArray item = (JSONArray)items.get("item");
+
+            JSONArray T1H = new JSONArray();
+            JSONArray RN1 = new JSONArray();
+            JSONArray SKY = new JSONArray();
+            
+
+            for (Object object : item) {
+                JSONObject tmpObject = (JSONObject) object;
+                if(tmpObject.get("category").equals("T1H")) {
+                    T1H.add(tmpObject);
+                }
+                else if(tmpObject.get("category").equals("RN1")) {
+                    RN1.add(tmpObject);
+                }
+                else if(tmpObject.get("category").equals("SKY")) {
+                    SKY.add(tmpObject);
+                }
+            }
             
             log.info(urlBuilder.toString());
-            log.info(weather.toString());
-            return weather;
+
+            return result;
 
             
         } catch(Exception e) {
             log.info(e.getMessage());
         }
         
-        return null;
+        return result;
     }
 }
