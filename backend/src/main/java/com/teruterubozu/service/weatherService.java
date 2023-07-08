@@ -1,6 +1,8 @@
 package com.teruterubozu.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
@@ -12,8 +14,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.io.BufferedReader;
+
+import com.google.gson.Gson;
 import com.teruterubozu.domain.Latlon;
 import com.teruterubozu.domain.Result;
+import com.teruterubozu.domain.Weather;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,7 +104,6 @@ public class weatherService {
             rd.close();
             conn.disconnect();
 
-            
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = (JSONObject)jsonParser.parse(sb.toString());
 
@@ -111,30 +115,26 @@ public class weatherService {
                 result.setResultMsg((String)header.get("resultMsg"));
                 return result;
             }
+            
+            result.setResultCode((String)header.get("resultCode"));
+            result.setResultMsg((String)header.get("resultMsg"));
 
             JSONObject body = (JSONObject)response.get("body");
             JSONObject items = (JSONObject)body.get("items");
             JSONArray item = (JSONArray)items.get("item");
 
-            JSONArray T1H = new JSONArray();
-            JSONArray RN1 = new JSONArray();
-            JSONArray SKY = new JSONArray();
-            
+            List<Weather> weatherList = new ArrayList<Weather>();
 
+            Gson gson = new Gson();
+            
             for (Object object : item) {
-                JSONObject tmpObject = (JSONObject) object;
-                if(tmpObject.get("category").equals("T1H")) {
-                    T1H.add(tmpObject);
-                }
-                else if(tmpObject.get("category").equals("RN1")) {
-                    RN1.add(tmpObject);
-                }
-                else if(tmpObject.get("category").equals("SKY")) {
-                    SKY.add(tmpObject);
+                Weather tmpObject = gson.fromJson(object.toString(), Weather.class);
+                if(tmpObject.getCategory().equals("T1H") || tmpObject.getCategory().equals("RN1") || tmpObject.getCategory().equals("SKY")) {
+                    weatherList.add(tmpObject);
                 }
             }
-            
-            log.info(urlBuilder.toString());
+
+            result.setData(weatherList);
 
             return result;
 
