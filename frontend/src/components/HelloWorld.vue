@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h3>Geolocation</h3>
+    <h1>Geolocation</h1>
     <p v-if="error">Error: {{ error }}</p>
     <p v-else-if="locatedAt">Located at: {{ new Date(locatedAt) }}</p>
     <p v-else>Locating...</p>

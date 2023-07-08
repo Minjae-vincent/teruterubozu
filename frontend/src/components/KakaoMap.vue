@@ -2,7 +2,7 @@
   <div>
     <h2>카카오 맵 보기</h2>
     <div id="map"></div>
-    <button @click="getWeather">날씨 가져오기</button>
+    <v-btn @click="getWeather">날씨 가져오기</v-btn>
   </div>
 </template>
 <style scoped>
@@ -32,7 +32,6 @@ export default {
     if (window.kakao && window.kakao.maps) {
       this.loadMap();
     } else {
-      console.log('loadScript');
       this.loadScript();
     }
   },
@@ -42,7 +41,6 @@ export default {
       const script = document.createElement('script');
       script.src =
         '//dapi.kakao.com/v2/maps/sdk.js?appkey=f4629327dac89bf72282190258ee9716&autoload=false';
-      console.log(script);
       script.onload = () => window.kakao.maps.load(this.loadMap);
 
       document.head.appendChild(script);
@@ -67,10 +65,17 @@ export default {
       marker.setMap(this.map);
     },
     getWeather() {
-      axios.post('http://localhost:9000/api/weather', {
-        lat: this.lat,
-        lon: this.lon,
-      });
+      axios
+        .post('http://localhost:9000/api/weather', {
+          lat: this.lat,
+          lon: this.lon,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
