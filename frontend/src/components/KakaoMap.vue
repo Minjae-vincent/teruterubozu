@@ -2,8 +2,15 @@
   <div>
     <h2>카카오 맵 보기</h2>
     <div id="map"></div>
-    <button @click="getWeather">날씨 가져오기</button>
+    <br />
+    <v-btn @click="getWeather">날씨 가져오기</v-btn>
+    <br />
   </div>
+  {{ weatherMonitor.temp }}
+  <br />
+  {{ weatherMonitor.sky }}
+  <br />
+  {{ weatherMonitor.precipitation }}
 </template>
 <style scoped>
 #map {
@@ -25,24 +32,30 @@ export default {
   data() {
     return {
       map: null,
+      weather: {
+        temp: [],
+        sky: [],
+        precipitation: [],
+      },
     };
   },
-  setup() {},
+  computed: {
+    weatherMonitor() {
+      return this.weather;
+    },
+  },
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.loadMap();
     } else {
-      console.log('loadScript');
       this.loadScript();
     }
   },
-  unmounted() {},
   methods: {
     loadScript() {
       const script = document.createElement('script');
       script.src =
         '//dapi.kakao.com/v2/maps/sdk.js?appkey=f4629327dac89bf72282190258ee9716&autoload=false';
-      console.log(script);
       script.onload = () => window.kakao.maps.load(this.loadMap);
 
       document.head.appendChild(script);
@@ -67,10 +80,33 @@ export default {
       marker.setMap(this.map);
     },
     getWeather() {
-      axios.post('http://localhost:9000/api/weather', {
-        lat: this.lat,
-        lon: this.lon,
-      });
+      axios
+        .post('http://localhost:9000/api/weather', {
+          lat: this.lat,
+          lon: this.lon,
+        })
+        .then((res) => {
+          this.weather = {
+            temp: [],
+            sky: [],
+            precipitation: [],
+          };
+          res.data.data.forEach((element) => {
+            if (element.category === 'T1H') {
+              this.weather.temp.push(element);
+            } else if (element.category === 'SKY') {
+              this.weather.sky.push(element);
+            } else if (element.category === 'RN1') {
+              this.weather.precipitation.push(element);
+            }
+          });
+        })
+        .then(() => {
+          console.log('asdf');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
