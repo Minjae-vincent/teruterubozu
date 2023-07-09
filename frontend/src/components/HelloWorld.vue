@@ -21,10 +21,6 @@ export default {
   components: {
     KakaoMap,
   },
-
-  props: {
-    msg: String,
-  },
   setup() {
     return { coords, locatedAt, error, resume, pause };
   },

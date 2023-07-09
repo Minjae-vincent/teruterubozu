@@ -5,12 +5,13 @@
     <br />
     <v-btn @click="getWeather">날씨 가져오기</v-btn>
     <br />
+    <TmpComponent :width="500" :height="300" />
   </div>
-  {{ weatherMonitor.temp }}
+  <!-- {{ weatherMonitor.temp }}
   <br />
   {{ weatherMonitor.sky }}
   <br />
-  {{ weatherMonitor.precipitation }}
+  {{ weatherMonitor.precipitation }} -->
 </template>
 <style scoped>
 #map {
@@ -22,12 +23,16 @@
 </style>
 <script>
 import axios from 'axios';
+import TmpComponent from './Tmp.vue';
 
 export default {
   name: 'KakaoMap',
   props: {
     lat: Number,
     lon: Number,
+  },
+  components: {
+    TmpComponent,
   },
   data() {
     return {

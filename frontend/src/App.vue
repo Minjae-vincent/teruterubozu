@@ -1,5 +1,6 @@
 <template>
   <HelloWorld msg="Welcome to Your Vue.js App" />
+  <TmpComponent />
 </template>
 
 <script>
