@@ -1,27 +1,21 @@
 <template>
   <div>
-    <h2>카카오 맵 보기</h2>
     <div id="map"></div>
     <br />
-    <v-btn @click="getWeather">날씨 가져오기</v-btn>
     <br />
+    <!-- <TmpComponent :width="500" :height="300" /> -->
   </div>
-  {{ weatherMonitor.temp }}
-  <br />
-  {{ weatherMonitor.sky }}
-  <br />
-  {{ weatherMonitor.precipitation }}
 </template>
 <style scoped>
 #map {
-  width: 50%;
+  width: 90%;
   height: 400px;
   margin: 0 auto;
   text-align: center;
 }
 </style>
 <script>
-import axios from 'axios';
+// import TmpComponent from './Tmp.vue';
 
 export default {
   name: 'KakaoMap',
@@ -29,20 +23,13 @@ export default {
     lat: Number,
     lon: Number,
   },
+  // components: {
+  //   TmpComponent,
+  // },
   data() {
     return {
       map: null,
-      weather: {
-        temp: [],
-        sky: [],
-        precipitation: [],
-      },
     };
-  },
-  computed: {
-    weatherMonitor() {
-      return this.weather;
-    },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -78,35 +65,6 @@ export default {
       });
 
       marker.setMap(this.map);
-    },
-    getWeather() {
-      axios
-        .post('http://localhost:9000/api/weather', {
-          lat: this.lat,
-          lon: this.lon,
-        })
-        .then((res) => {
-          this.weather = {
-            temp: [],
-            sky: [],
-            precipitation: [],
-          };
-          res.data.data.forEach((element) => {
-            if (element.category === 'T1H') {
-              this.weather.temp.push(element);
-            } else if (element.category === 'SKY') {
-              this.weather.sky.push(element);
-            } else if (element.category === 'RN1') {
-              this.weather.precipitation.push(element);
-            }
-          });
-        })
-        .then(() => {
-          console.log('asdf');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };
