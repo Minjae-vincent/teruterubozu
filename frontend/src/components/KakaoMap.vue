@@ -3,7 +3,6 @@
     <div id="map"></div>
     <br />
     <br />
-    <!-- <TmpComponent :width="500" :height="300" /> -->
   </div>
 </template>
 <style scoped>
@@ -12,20 +11,17 @@
   height: 400px;
   margin: 0 auto;
   text-align: center;
+  box-shadow: 0px 0px 3px 3px gray;
 }
 </style>
 <script>
-// import TmpComponent from './Tmp.vue';
-
 export default {
   name: 'KakaoMap',
   props: {
     lat: Number,
     lon: Number,
   },
-  // components: {
-  //   TmpComponent,
-  // },
+  lon: Number,
   data() {
     return {
       map: null,
@@ -40,6 +36,7 @@ export default {
   },
   methods: {
     loadScript() {
+      console.log(this.lat, this.lon);
       const script = document.createElement('script');
       script.src =
         '//dapi.kakao.com/v2/maps/sdk.js?appkey=f4629327dac89bf72282190258ee9716&autoload=false';
@@ -51,6 +48,7 @@ export default {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(this.lat, this.lon),
+        // center: new window.kakao.maps.LatLng(37.3018506, 126.8386982),
         level: 1,
       };
 
@@ -59,6 +57,10 @@ export default {
     },
     loadMaker() {
       const markerPosition = new window.kakao.maps.LatLng(this.lat, this.lon);
+      // const markerPosition = new window.kakao.maps.LatLng(
+      //   37.3018506,
+      //   126.8386982
+      // );
 
       const marker = new window.kakao.maps.Marker({
         position: markerPosition,
