@@ -15,23 +15,51 @@
 
     <v-card-text class="py-0">
       <v-row align="center" no-gutters>
+        <!-- 온도 -->
         <v-col class="text-h2" cols="6">
           {{ weatherMonitor.temp[0].fcstValue }}&deg;C
         </v-col>
 
-        <v-col cols="6" class="text-right">
-          <v-icon color="error" icon="mdi-weather-hurricane" size="88"></v-icon>
+        <!-- 구름상태-->
+        <v-col
+          v-if="weatherMonitor.sky[0].fcstValue == 1"
+          cols="6"
+          class="text-right"
+        >
+          <v-icon color="error" icon="mdi-weather-sunny" size="88"></v-icon>
+        </v-col>
+
+        <v-col
+          v-if="weatherMonitor.sky[0].fcstValue == 3"
+          cols="6"
+          class="text-right"
+        >
+          <v-icon color="error" icon="mdi-weather-cloudy" size="88"></v-icon>
+        </v-col>
+
+        <v-col
+          v-if="weatherMonitor.sky[0].fcstValue == 4"
+          cols="6"
+          class="text-right"
+        >
+          <v-icon color="error" icon="mdi-weather-pouring" size="88"></v-icon>
         </v-col>
       </v-row>
     </v-card-text>
 
     <div class="d-flex py-3 justify-space-between">
+      <!-- 풍속 -->
       <v-list-item density="compact" prepend-icon="mdi-weather-windy">
-        <v-list-item-subtitle>123 km/h</v-list-item-subtitle>
+        <v-list-item-subtitle
+          >{{ weatherMonitor.wsd[0].fcstValue }} m/s</v-list-item-subtitle
+        >
       </v-list-item>
 
-      <v-list-item density="compact" prepend-icon="mdi-weather-pouring">
-        <v-list-item-subtitle>48%</v-list-item-subtitle>
+      <!-- 강수량 -->
+      <v-list-item density="compact" prepend-icon="mdi-water-check">
+        <v-list-item-subtitle
+          >{{ weatherMonitor.pty[0].fcstValue }} mm</v-list-item-subtitle
+        >
       </v-list-item>
     </div>
 
@@ -148,8 +176,36 @@ export default {
           ny: '',
         },
       ],
-      sky: [],
-      precipitation: [],
+      sky: [
+        {
+          category: '',
+          fcstDate: '',
+          fcstTime: '',
+          fcstValue: '',
+          nx: '',
+          ny: '',
+        },
+      ],
+      wsd: [
+        {
+          category: '',
+          fcstDate: '',
+          fcstTime: '',
+          fcstValue: '',
+          nx: '',
+          ny: '',
+        },
+      ],
+      pty: [
+        {
+          category: '',
+          fcstDate: '',
+          fcstTime: '',
+          fcstValue: '',
+          nx: '',
+          ny: '',
+        },
+      ],
     },
   }),
   components: {
@@ -168,9 +224,6 @@ export default {
     weatherMonitor() {
       return this.weather;
     },
-    currentTemp() {
-      return this.weather.temp[0].f;
-    },
   },
   watch: {
     coords: {
@@ -186,7 +239,7 @@ export default {
   },
   methods: {
     getWeather() {
-      console.log(this.coords.latitude, this.coords.longitude);
+      // console.log(this.coords.latitude, this.coords.longitude);
       axios
         .post('http://localhost:9000/api/weather', {
           lat: this.coords.latitude,
@@ -196,17 +249,18 @@ export default {
           this.weather = {
             temp: [],
             sky: [],
-            precipitation: [],
+            wsd: [],
+            pty: [],
           };
           res.data.data.forEach((element) => {
             if (element.category === 'T1H') {
               this.weather.temp.push(JSON.parse(JSON.stringify(element)));
             } else if (element.category === 'SKY') {
               this.weather.sky.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'RN1') {
-              this.weather.precipitation.push(
-                JSON.parse(JSON.stringify(element))
-              );
+            } else if (element.category === 'WSD') {
+              this.weather.wsd.push(JSON.parse(JSON.stringify(element)));
+            } else if (element.category === 'PTY') {
+              this.weather.pty.push(JSON.parse(JSON.stringify(element)));
             }
           });
         })
