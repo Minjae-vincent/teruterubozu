@@ -71,7 +71,14 @@
 
     <v-expand-transition>
       <div v-if="expand && locatedAt">
-        <TmpComponent :temp="weatherMonitor.temp" />
+        <TmpComponent
+          :weatherData="weatherMonitor.temp"
+          :flag="'Temperature'"
+        />
+        <TmpComponent
+          :weatherData="weatherMonitor.pty"
+          :flag="'Precipitation'"
+        />
         <!-- <div class="py-2">
           <v-slider
             v-model="time"

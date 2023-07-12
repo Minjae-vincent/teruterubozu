@@ -30,7 +30,8 @@ ChartJS.register(
 export default {
   name: 'TmpComponent',
   props: {
-    temp: Object,
+    weatherData: Object,
+    flag: String,
   },
   components: {
     Line,
@@ -41,10 +42,10 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'Temperature',
-            backgroundColor: '#f87979',
+            label: this.flag,
+            backgroundColor:
+              this.flag === 'Temperature' ? '#f87979' : '#5882FA',
             data: [],
-            // tension: 0.1,
           },
         ],
       },
@@ -55,8 +56,9 @@ export default {
           y: {
             title: {
               display: true,
-              text: 'Temperature',
+              text: this.flag,
             },
+            beginAtZero: this.flag === 'Temperature' ? false : true,
           },
           x: {
             title: {
@@ -69,7 +71,7 @@ export default {
     };
   },
   beforeMount() {
-    for (let a of this.temp) {
+    for (let a of this.weatherData) {
       this.chartData.labels.push(a.fcstDate + a.fcstTime);
       this.chartData.datasets[0].data.push(a.fcstValue);
     }
