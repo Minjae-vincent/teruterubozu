@@ -70,8 +70,9 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="expand">
-        <div class="py-2">
+      <div v-if="expand && locatedAt">
+        <TmpComponent :temp="weatherMonitor.temp" />
+        <!-- <div class="py-2">
           <v-slider
             v-model="time"
             :max="6"
@@ -95,7 +96,7 @@
             :subtitle="item.temp"
           >
           </v-list-item>
-        </v-list>
+        </v-list> -->
       </div>
     </v-expand-transition>
 
@@ -148,6 +149,7 @@
 import { useGeolocation } from '@vueuse/core';
 import KakaoMap from './KakaoMap.vue';
 import axios from 'axios';
+import TmpComponent from './Tmp.vue';
 
 const { coords, locatedAt, error, resume, pause } = useGeolocation();
 
@@ -216,6 +218,7 @@ export default {
   }),
   components: {
     KakaoMap,
+    TmpComponent,
   },
   computed: {
     LatLonText() {

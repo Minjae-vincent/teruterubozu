@@ -29,32 +29,56 @@ ChartJS.register(
 
 export default {
   name: 'TmpComponent',
+  props: {
+    temp: Object,
+  },
   components: {
     Line,
   },
   data() {
     return {
       chartData: {
-        labels: ['January', 'February', 'March'],
+        labels: [],
         datasets: [
           {
-            label: 'Data One',
+            label: 'Temperature',
             backgroundColor: '#f87979',
-            data: [40, 39, 10],
+            data: [],
+            // tension: 0.1,
           },
         ],
       },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: true,
+        scales: {
+          y: {
+            title: {
+              display: true,
+              text: 'Temperature',
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Time',
+            },
+          },
+        },
       },
     };
+  },
+  beforeMount() {
+    for (let a of this.temp) {
+      this.chartData.labels.push(a.fcstDate + a.fcstTime);
+      this.chartData.datasets[0].data.push(a.fcstValue);
+    }
   },
 };
 </script>
 <style>
 #test {
-  width: 50%;
+  width: 90%;
   /* height: 200px; */
   text-align: center;
   display: block;
