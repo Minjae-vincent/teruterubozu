@@ -30,19 +30,25 @@
         </v-col>
 
         <v-col
-          v-if="weatherMonitor.sky[0].fcstValue == 3"
-          cols="6"
-          class="text-right"
-        >
-          <v-icon color="error" icon="mdi-weather-cloudy" size="88"></v-icon>
-        </v-col>
-
-        <v-col
-          v-if="weatherMonitor.sky[0].fcstValue == 4"
+          v-if="
+            weatherMonitor.sky[0].fcstValue == 4 &&
+            weatherMonitor.pty[0].fcstValue > 0
+          "
           cols="6"
           class="text-right"
         >
           <v-icon color="error" icon="mdi-weather-pouring" size="88"></v-icon>
+        </v-col>
+
+        <v-col
+          v-if="
+            weatherMonitor.sky[0].fcstValue == 3 ||
+            weatherMonitor.sky[0].fcstValue == 4
+          "
+          cols="6"
+          class="text-right"
+        >
+          <v-icon color="error" icon="mdi-weather-cloudy" size="88"></v-icon>
         </v-col>
       </v-row>
     </v-card-text>
