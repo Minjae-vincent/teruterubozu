@@ -157,7 +157,7 @@ public class weatherService {
             return result;
 
         } catch (Exception e) {
-            log.info(result.getResultMsg() + e.getMessage());
+            e.printStackTrace();
         }
 
         return result;

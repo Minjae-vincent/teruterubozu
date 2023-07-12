@@ -1,6 +1,5 @@
 <template>
   <HomePage />
-  <!-- <TmpComponent /> -->
 </template>
 
 <script>

@@ -30,19 +30,25 @@
         </v-col>
 
         <v-col
-          v-if="weatherMonitor.sky[0].fcstValue == 3"
-          cols="6"
-          class="text-right"
-        >
-          <v-icon color="error" icon="mdi-weather-cloudy" size="88"></v-icon>
-        </v-col>
-
-        <v-col
-          v-if="weatherMonitor.sky[0].fcstValue == 4"
+          v-if="
+            weatherMonitor.sky[0].fcstValue == 4 &&
+            weatherMonitor.pty[0].fcstValue > 0
+          "
           cols="6"
           class="text-right"
         >
           <v-icon color="error" icon="mdi-weather-pouring" size="88"></v-icon>
+        </v-col>
+
+        <v-col
+          v-if="
+            weatherMonitor.sky[0].fcstValue == 3 ||
+            weatherMonitor.sky[0].fcstValue == 4
+          "
+          cols="6"
+          class="text-right"
+        >
+          <v-icon color="error" icon="mdi-weather-cloudy" size="88"></v-icon>
         </v-col>
       </v-row>
     </v-card-text>
@@ -64,8 +70,10 @@
     </div>
 
     <v-expand-transition>
-      <div v-if="expand">
-        <div class="py-2">
+      <div v-if="expand && locatedAt">
+        <LineChart :weatherData="weatherMonitor.temp" :flag="'Temperature'" />
+        <LineChart :weatherData="weatherMonitor.pty" :flag="'Precipitation'" />
+        <!-- <div class="py-2">
           <v-slider
             v-model="time"
             :max="6"
@@ -89,7 +97,7 @@
             :subtitle="item.temp"
           >
           </v-list-item>
-        </v-list>
+        </v-list> -->
       </div>
     </v-expand-transition>
 
@@ -142,6 +150,7 @@
 import { useGeolocation } from '@vueuse/core';
 import KakaoMap from './KakaoMap.vue';
 import axios from 'axios';
+import LineChart from './LineChart.vue';
 
 const { coords, locatedAt, error, resume, pause } = useGeolocation();
 
@@ -210,6 +219,7 @@ export default {
   }),
   components: {
     KakaoMap,
+    LineChart,
   },
   computed: {
     LatLonText() {
@@ -246,23 +256,25 @@ export default {
           lon: this.coords.longitude,
         })
         .then((res) => {
-          this.weather = {
-            temp: [],
-            sky: [],
-            wsd: [],
-            pty: [],
-          };
-          res.data.data.forEach((element) => {
-            if (element.category === 'T1H') {
-              this.weather.temp.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'SKY') {
-              this.weather.sky.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'WSD') {
-              this.weather.wsd.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'PTY') {
-              this.weather.pty.push(JSON.parse(JSON.stringify(element)));
-            }
-          });
+          if (res.data.data.length != 0) {
+            this.weather = {
+              temp: [],
+              sky: [],
+              wsd: [],
+              pty: [],
+            };
+            res.data.data.forEach((element) => {
+              if (element.category === 'T1H') {
+                this.weather.temp.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'SKY') {
+                this.weather.sky.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'WSD') {
+                this.weather.wsd.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'PTY') {
+                this.weather.pty.push(JSON.parse(JSON.stringify(element)));
+              }
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
