@@ -71,14 +71,8 @@
 
     <v-expand-transition>
       <div v-if="expand && locatedAt">
-        <TmpComponent
-          :weatherData="weatherMonitor.temp"
-          :flag="'Temperature'"
-        />
-        <TmpComponent
-          :weatherData="weatherMonitor.pty"
-          :flag="'Precipitation'"
-        />
+        <LineChart :weatherData="weatherMonitor.temp" :flag="'Temperature'" />
+        <LineChart :weatherData="weatherMonitor.pty" :flag="'Precipitation'" />
         <!-- <div class="py-2">
           <v-slider
             v-model="time"
@@ -156,7 +150,7 @@
 import { useGeolocation } from '@vueuse/core';
 import KakaoMap from './KakaoMap.vue';
 import axios from 'axios';
-import TmpComponent from './Tmp.vue';
+import LineChart from './LineChart.vue';
 
 const { coords, locatedAt, error, resume, pause } = useGeolocation();
 
@@ -225,7 +219,7 @@ export default {
   }),
   components: {
     KakaoMap,
-    TmpComponent,
+    LineChart,
   },
   computed: {
     LatLonText() {
@@ -262,23 +256,25 @@ export default {
           lon: this.coords.longitude,
         })
         .then((res) => {
-          this.weather = {
-            temp: [],
-            sky: [],
-            wsd: [],
-            pty: [],
-          };
-          res.data.data.forEach((element) => {
-            if (element.category === 'T1H') {
-              this.weather.temp.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'SKY') {
-              this.weather.sky.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'WSD') {
-              this.weather.wsd.push(JSON.parse(JSON.stringify(element)));
-            } else if (element.category === 'PTY') {
-              this.weather.pty.push(JSON.parse(JSON.stringify(element)));
-            }
-          });
+          if (res.data.data.length != 0) {
+            this.weather = {
+              temp: [],
+              sky: [],
+              wsd: [],
+              pty: [],
+            };
+            res.data.data.forEach((element) => {
+              if (element.category === 'T1H') {
+                this.weather.temp.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'SKY') {
+                this.weather.sky.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'WSD') {
+                this.weather.wsd.push(JSON.parse(JSON.stringify(element)));
+              } else if (element.category === 'PTY') {
+                this.weather.pty.push(JSON.parse(JSON.stringify(element)));
+              }
+            });
+          }
         })
         .catch((err) => {
           console.log(err);

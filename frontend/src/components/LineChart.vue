@@ -28,7 +28,7 @@ ChartJS.register(
 );
 
 export default {
-  name: 'TmpComponent',
+  name: 'LineChart',
   props: {
     weatherData: Object,
     flag: String,
@@ -72,7 +72,17 @@ export default {
   },
   beforeMount() {
     for (let a of this.weatherData) {
-      this.chartData.labels.push(a.fcstDate + a.fcstTime);
+      this.chartData.labels.push(
+        a.fcstDate.substring(0, 4) +
+          '-' +
+          a.fcstDate.substring(4, 6) +
+          '-' +
+          a.fcstDate.substring(6, 8) +
+          ' ' +
+          a.fcstTime.substring(0, 2) +
+          ':' +
+          a.fcstTime.substring(2, 4)
+      );
       this.chartData.datasets[0].data.push(a.fcstValue);
     }
   },
