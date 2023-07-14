@@ -30,7 +30,7 @@
         </v-col>
 
         <v-col
-          v-if="
+          v-else-if="
             weatherMonitor.sky[0].fcstValue == 4 &&
             weatherMonitor.pty[0].fcstValue > 0
           "
@@ -41,7 +41,7 @@
         </v-col>
 
         <v-col
-          v-if="
+          v-else-if="
             weatherMonitor.sky[0].fcstValue == 3 ||
             weatherMonitor.sky[0].fcstValue == 4
           "
