@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     loadScript() {
-      console.log(this.lat, this.lon);
       const script = document.createElement('script');
       script.src =
         '//dapi.kakao.com/v2/maps/sdk.js?appkey=f4629327dac89bf72282190258ee9716&autoload=false';

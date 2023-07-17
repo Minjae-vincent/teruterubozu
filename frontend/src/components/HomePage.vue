@@ -12,6 +12,7 @@
       <v-card-item title="Locating..."> </v-card-item>
     </div>
     <KakaoMap v-if="locatedAt" :lat="coords.latitude" :lon="coords.longitude" />
+    <!-- <KakaoMap :lat="37.2962453" :lon="126.8389087" /> -->
 
     <v-card-text class="py-0">
       <v-row align="center" no-gutters>
@@ -73,31 +74,6 @@
       <div v-if="expand && locatedAt">
         <LineChart :weatherData="weatherMonitor.temp" :flag="'Temperature'" />
         <LineChart :weatherData="weatherMonitor.pty" :flag="'Precipitation'" />
-        <!-- <div class="py-2">
-          <v-slider
-            v-model="time"
-            :max="6"
-            :step="1"
-            :ticks="labels"
-            class="mx-4"
-            color="primary"
-            density="compact"
-            hide-details
-            show-ticks="always"
-            thumb-size="10"
-          ></v-slider>
-        </div>
-
-        <v-list class="bg-transparent">
-          <v-list-item
-            v-for="item in forecast"
-            :key="item.day"
-            :title="item.day"
-            :append-icon="item.icon"
-            :subtitle="item.temp"
-          >
-          </v-list-item>
-        </v-list> -->
       </div>
     </v-expand-transition>
 
@@ -157,23 +133,8 @@ const { coords, locatedAt, error, resume, pause } = useGeolocation();
 export default {
   name: 'HomePage',
   data: () => ({
-    labels: { 0: 'SU', 1: 'MO', 2: 'TU', 3: 'WED', 4: 'TH', 5: 'FR', 6: 'SA' },
     expand: false,
     expand2: false,
-    time: 0,
-    forecast: [
-      {
-        day: 'Tuesday',
-        icon: 'mdi-white-balance-sunny',
-        temp: '24\xB0/12\xB0',
-      },
-      {
-        day: 'Wednesday',
-        icon: 'mdi-white-balance-sunny',
-        temp: '22\xB0/14\xB0',
-      },
-      { day: 'Thursday', icon: 'mdi-cloud', temp: '25\xB0/15\xB0' },
-    ],
     weather: {
       temp: [
         {
@@ -249,7 +210,6 @@ export default {
   },
   methods: {
     getWeather() {
-      // console.log(this.coords.latitude, this.coords.longitude);
       axios
         .post('http://localhost:9000/api/weather', {
           lat: this.coords.latitude,
