@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     loadScript() {
-      console.log(this.lat, this.lon);
       const script = document.createElement('script');
       script.src =
         '//dapi.kakao.com/v2/maps/sdk.js?appkey=f4629327dac89bf72282190258ee9716&autoload=false';
@@ -49,7 +48,7 @@ export default {
       const options = {
         center: new window.kakao.maps.LatLng(this.lat, this.lon),
         // center: new window.kakao.maps.LatLng(37.3018506, 126.8386982),
-        level: 1,
+        level: 3,
       };
 
       this.map = new window.kakao.maps.Map(container, options);
