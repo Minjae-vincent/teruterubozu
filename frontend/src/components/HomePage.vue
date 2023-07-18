@@ -12,7 +12,6 @@
       <v-card-item title="Locating..."> </v-card-item>
     </div>
     <KakaoMap v-if="locatedAt" :lat="coords.latitude" :lon="coords.longitude" />
-    <!-- <KakaoMap :lat="37.2962453" :lon="126.8389087" /> -->
 
     <v-card-text class="py-0">
       <v-row align="center" no-gutters>
@@ -128,7 +127,11 @@ import KakaoMap from './KakaoMap.vue';
 import axios from 'axios';
 import LineChart from './LineChart.vue';
 
-const { coords, locatedAt, error, resume, pause } = useGeolocation();
+const options = {
+  timeout: 60000,
+};
+
+const { coords, locatedAt, error, resume, pause } = useGeolocation(options);
 
 export default {
   name: 'HomePage',
@@ -201,17 +204,24 @@ export default {
       handler: function (val) {
         if (val) {
           this.getWeather();
+          console.log(val);
         }
       },
     },
   },
   setup() {
+    console.log('setup', coords, locatedAt, error, resume, pause);
     return { coords, locatedAt, error, resume, pause };
   },
   methods: {
     getWeather() {
+      console.log(
+        'Get weather param: ',
+        this.coords.latitude,
+        this.coords.longitude
+      );
       axios
-        .post('http://localhost:9000/api/weather', {
+        .post('http://175.196.170.100:9000/api/weather', {
           lat: this.coords.latitude,
           lon: this.coords.longitude,
         })
