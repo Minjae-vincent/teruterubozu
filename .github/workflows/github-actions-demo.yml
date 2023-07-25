@@ -19,22 +19,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Maven clean
         working-directory: ./backend
         run: |
           ls ${{ github.workspace }}/backend
           mvn clean
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Make target folder on backend
         run: |
           mkdir -p ./backend/target/classes/static
+          ls ${{ github.workspace }}/backend
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build vue project
         working-directory: ./frontend
         run: |
           npm install
           npm run build -- --dest ../backend/target/classes/static
-      - run: ls ./backend/target/classes/static
+      - uses: actions/checkout@v3
+      - name: Setup Java 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Maven package
+        working-directory: ./backend
+        run: |
+          mvn package
+      - run: |
+          echo ${{ github.workspace }}
+          ls ${{ github.workspace }}/backend/target
+          ls ${{ github.workspace }}/backend/target/classes
+          ls ${{ github.workspace }}/backend/target/classes/static
