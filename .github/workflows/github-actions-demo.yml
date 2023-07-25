@@ -18,29 +18,23 @@ jobs:
   #     - run: echo "🍏 This job's status is ${{ job.status }}."
   build:
     runs-on: ubuntu-latest
-    env:
-      working-directory-back: ./backend
-      working-directory-front: ./frontend
-
     steps:
       - uses: actions/checkout@v2
       - name: Maven clean
-        working-directory: $env.working-directory-back
+        working-directory: ./backend
         run: |
-          ls $env.working-directory-back
+          ls ${{ github.workspace }}/backend
           mvn clean
 
       - uses: actions/checkout@v2
       - name: Make target folder on backend
         run: |
-          ls ${{ env.working-directory-back }}
           mkdir -p ./backend/target/classes/static
 
       - uses: actions/checkout@v2
       - name: Build vue project
-        working-directory: ${{ env.working-directory-front }}
+        working-directory: ./frontend
         run: |
-          ls ${{ env.working-directory-back }}
           npm install
           npm run build -- --dest ../backend/target/classes/static
       - run: ls ./backend/target/classes/static
