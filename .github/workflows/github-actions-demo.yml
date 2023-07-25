@@ -48,7 +48,8 @@ jobs:
         run: |
           mvn package
       - name: List files in the repository
-        run: echo ${{ github.workspace }}
+        run: |
+          echo ${{ github.workspace }}
           ls ${{ github.workspace }}/backend/target
       - name: Deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
@@ -57,7 +58,7 @@ jobs:
           server: 175.196.170.100
           port: 10022
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: '/home/runner/work/teruterubozu/teruterubozu/backend/target/teruterubozu-0.0.1-SNAPSHOT.jar'
+          local_path: '${{ github.workspace }}/backend/target/teruterubozu-0.0.1-SNAPSHOT.jar'
           remote_path: '/home/vraptor/test'
           sftp_only: true
           password: vraptor
