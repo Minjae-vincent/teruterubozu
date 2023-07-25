@@ -47,6 +47,9 @@ jobs:
         working-directory: ./backend
         run: |
           mvn package
+      - name: List files in the repository
+        run: echo ${{ github.workspace }}
+          ls ${{ github.workspace }}/backend/target
       - name: Deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
