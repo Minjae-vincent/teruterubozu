@@ -22,15 +22,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: Maven clean
         working-directory: ./backend
-        run: mvn clean
+        run: |
+          echo ${{github.workspace}}
+          ls ${{ github.workspace }}
+          mvn clean
 
       - uses: actions/checkout@v2
       - name: Make target folder on backend
-        run: mkdir -p ./backend/target/classes/static
+        run: |
+          echo ${{github.workspace}}
+          ls ${{ github.workspace }}
+          mkdir -p ./backend/target/classes/static
 
       - uses: actions/checkout@v2
       - name: Build vue project
         working-directory: ./frontend
         run: |
+          echo ${{github.workspace}}
+          ls ${{ github.workspace }}
           npm install
           npm run build -- --dest ../backend/target/classes/static
