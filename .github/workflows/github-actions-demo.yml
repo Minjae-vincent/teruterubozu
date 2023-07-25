@@ -50,7 +50,7 @@ jobs:
       - name: List files in the repository
         run: |
           echo ${{ github.workspace }}
-          ls -al ${{ github.workspace }}/backend/target
+          ls -al ${{ github.workspace }}/backend
       # - name: Deploy file to server
       #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
       #   with:
