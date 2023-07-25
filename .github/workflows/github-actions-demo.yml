@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Maven clean
-        working-directory: ${{ env.working-directory-back }}}
+        working-directory: ${{ env.working-directory-back }}
         run: |
           echo ${{github.workspace}}
           ls ${{ github.workspace }}
@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Build vue project
-        working-directory: ${{ env.working-directory-front }}}
+        working-directory: ${{ env.working-directory-front }}
         run: |
           echo ${{github.workspace}}
           ls ${{ github.workspace }}
