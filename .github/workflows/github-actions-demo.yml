@@ -1,8 +1,6 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on:
-  push:
-    branches: [main]
+on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -18,3 +16,16 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Make target folder on backend
+        run: mkdir -p ./backend/target/classes/static
+
+      - uses: actions/checkout@v2
+      - name: Build vue project
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build --dest ../backend/target/classes/static
