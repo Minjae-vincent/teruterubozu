@@ -21,19 +21,18 @@ jobs:
     env:
       working-directory-back: ./backend
       working-directory-front: ./frontend
+
     steps:
       - uses: actions/checkout@v2
       - name: Maven clean
-        working-directory: ${{ env.working-directory-back }}
+        working-directory: $env.working-directory-back
         run: |
-          echo ${{env.working-directory-back}}
-          ls ${{ env.working-directory-back }}
+          ls $env.working-directory-back
           mvn clean
 
       - uses: actions/checkout@v2
       - name: Make target folder on backend
         run: |
-          echo ${{env.working-directory-back}}
           ls ${{ env.working-directory-back }}
           mkdir -p ./backend/target/classes/static
 
@@ -41,7 +40,6 @@ jobs:
       - name: Build vue project
         working-directory: ${{ env.working-directory-front }}
         run: |
-          echo ${{env.working-directory-back}}
           ls ${{ env.working-directory-back }}
           npm install
           npm run build -- --dest ../backend/target/classes/static
