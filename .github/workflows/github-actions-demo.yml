@@ -50,5 +50,3 @@ jobs:
       - run: |
           echo ${{ github.workspace }}
           ls ${{ github.workspace }}/backend/target
-          ls ${{ github.workspace }}/backend/target/classes
-          ls ${{ github.workspace }}/backend/target/classes/static
