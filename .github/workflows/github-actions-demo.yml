@@ -58,7 +58,7 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: vraptor
-          server: 175.196.170.100
+          server: 175.196.170.10
           port: 10022
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           local_path: '${{ github.workspace }}/backend/target/teruterubozu-0.0.1-SNAPSHOT.jar'
