@@ -61,7 +61,7 @@ jobs:
           server: 175.196.170.100
           port: 10022
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: '${{ github.workspace }}/backend/target/*.jar'
+          local_path: '${{ github.workspace }}/backend/target/*'
           remote_path: '/home/vraptor/test'
           sftp_only: true
           password: vraptor
