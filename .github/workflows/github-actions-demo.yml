@@ -20,6 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Maven clean
+        working-directory: ./backend
+        run: mvn clean
+
+      - uses: actions/checkout@v2
       - name: Make target folder on backend
         run: mkdir -p ./backend/target/classes/static
 
@@ -28,4 +33,4 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run build -- --dest ../../../backend/target/classes/static
+          npm run build -- --dest ../backend/target/classes/static
