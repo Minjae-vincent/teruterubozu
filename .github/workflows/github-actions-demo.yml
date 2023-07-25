@@ -50,15 +50,15 @@ jobs:
       - name: List files in the repository
         run: |
           echo ${{ github.workspace }}
-          ls /home/runner/work/teruterubozu
-      - name: Deploy file to server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: vraptor
-          server: 175.196.170.100
-          port: 10022
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: '${{ github.workspace }}/build.sh'
-          remote_path: '/home/vraptor/test'
-          sftp_only: true
-          password: vraptor
+          ls -al ${{ github.workspace }}/backend/target
+      # - name: Deploy file to server
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      #   with:
+      #     username: vraptor
+      #     server: 175.196.170.100
+      #     port: 10022
+      #     ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     local_path: '${{ github.workspace }}/build.sh'
+      #     remote_path: '/home/vraptor/test'
+      #     sftp_only: true
+      #     password: vraptor
