@@ -17,16 +17,17 @@ jobs:
 
       - uses: actions/checkout@v3
       - name: Make target folder on backend
+        working-directory: ./backend/src/main/resources/static
         run: |
-          mkdir -p ./backend/target/classes/static
-          ls ${{ github.workspace }}/backend
+          rm -rf *
+          ls ${{ github.workspace }}/backend/src/main/resources/static
 
       - uses: actions/checkout@v3
       - name: Build vue project
         working-directory: ./frontend
         run: |
           npm install
-          npm run build -- --dest ../backend/target/classes/static
+          npm run build -- --dest ../backend/src/main/resources/static
 
       - uses: actions/checkout@v3
       - name: Setup Java 17
@@ -41,7 +42,7 @@ jobs:
 
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}/backend/target/classes/static
+          ls ${{ github.workspace }}/backend/src/main/resources/static
 
       - name: Deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
