@@ -27,11 +27,11 @@ jobs:
         working-directory: ./frontend
         run: |
           npm install
-          npm run build -- --dest ../backend/src/main/resources/static
+          npm run build -- --dest ../backend/target/classes/static
 
       - name: List files after frontend build
         run: |
-          ls ${{ github.workspace }}/backend/src/main/resources/static
+          ls ${{ github.workspace }}/backend/target/classes/static
 
       - uses: actions/checkout@v3
       - name: Setup Java 17
