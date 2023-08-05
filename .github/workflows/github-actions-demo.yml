@@ -42,7 +42,7 @@ jobs:
 
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/backend/target/classes/static
 
       - name: Deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
