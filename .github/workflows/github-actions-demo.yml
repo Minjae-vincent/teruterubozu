@@ -39,6 +39,10 @@ jobs:
         with:
           java-version: 17
 
+      - name: List files install java
+        run: |
+          ls ${{ github.workspace }}/backend/src/main/resources/static
+
       - name: Maven package
         working-directory: ./backend
         run: |
