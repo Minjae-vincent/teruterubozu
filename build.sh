@@ -12,7 +12,8 @@ cd ../frontend
 npm install
 
 # build frontend
-npm run build -- --dest ../backend/target/classes/static
+# npm run build -- --dest ../backend/target/classes/static
+npm run build -- --dest ../backend/src/main/resources/static
 
 cd ../backend
 
