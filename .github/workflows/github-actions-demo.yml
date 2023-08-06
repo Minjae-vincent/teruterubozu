@@ -46,7 +46,6 @@ jobs:
 
       - name: List files after maven package
         run: |
-          ls ${{ github.workspace }}/backend/target
           ls ${{ github.workspace }}/backend/target/classes
 
       - name: Deploy file to server
