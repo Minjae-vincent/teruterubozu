@@ -46,7 +46,7 @@ jobs:
 
       - name: List files after maven package
         run: |
-          ls ${{ github.workspace }}/backend/target/classes
+          ls ${{ github.workspace }}/backend/target
 
       - name: Deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
