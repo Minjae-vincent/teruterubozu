@@ -53,7 +53,7 @@ jobs:
           port: 10022
           username: vraptor
           # key: ${{ secrets.SSH_PRIVATE_KEY }}
-          password: vraptor
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd teruteru
             ./test.sh
