@@ -46,7 +46,7 @@ jobs:
       #     remote_path: '/home/vraptor/teruteru'
       #     sftp_only: true
       #     password: vraptor
-      - name: Run shell script on remote server
+      - name: Run shell script on remote server to stop service and move file to archive
         uses: appleboy/ssh-action@master
         with:
           host: 175.196.170.100
@@ -57,3 +57,4 @@ jobs:
           script: |
             cd teruteru
             ./test.sh
+            ${{ secrets.SSH_PASSWORD}}
