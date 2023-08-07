@@ -15,13 +15,6 @@ jobs:
         with:
           java-version: 17
 
-      # - uses: actions/checkout@v3
-      # - name: Maven clean
-      #   working-directory: ./backend
-      #   run: |
-      #     ls ${{ github.workspace }}/backend
-      #     mvn clean
-
       - uses: actions/checkout@v3
       - name: Build vue project
         working-directory: ./frontend
