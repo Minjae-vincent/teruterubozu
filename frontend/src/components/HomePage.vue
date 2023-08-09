@@ -221,10 +221,14 @@ export default {
         this.coords.longitude
       );
       axios
-        .post('http://175.196.170.100:9000/api/weather', {
+        .post('http://localhost:9000/api/weather', {
           lat: this.coords.latitude,
           lon: this.coords.longitude,
         })
+        // .post('http://175.196.170.100:9000/api/weather', {
+        //   lat: this.coords.latitude,
+        //   lon: this.coords.longitude,
+        // })
         .then((res) => {
           if (res.data.data.length != 0) {
             this.weather = {
