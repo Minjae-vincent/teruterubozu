@@ -17,6 +17,7 @@
     "vue": "^3.2.13",
     "vue-chartjs": "^5.2.0",
     "vue-geolocation-api": "^0.1.21",
+    "vue-router": "^4.0.13",
     "vue3-geolocation": "^1.0.0",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
