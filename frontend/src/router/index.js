@@ -6,13 +6,13 @@ import Test from '../views/Test.vue';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/test',
     name: 'Test',
     component: Test,
+  },
+  {
+    path: '/main',
+    name: 'Home',
+    component: Home,
   },
 ];
 
