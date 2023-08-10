@@ -123,9 +123,9 @@
 
 <script>
 import { useGeolocation } from '@vueuse/core';
-import KakaoMap from './KakaoMap.vue';
 import axios from 'axios';
-import LineChart from './LineChart.vue';
+import KakaoMap from '@/components/KakaoMap.vue';
+import LineChart from '@/components/LineChart.vue';
 
 const options = {
   timeout: 60000,
