@@ -1,11 +1,5 @@
 <template>
   <div>
-    <!-- <v-img
-      class="mx-auto my-6"
-      max-width="228"
-      src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"
-    ></v-img> -->
-
     <v-card
       class="mx-auto pa-12 pb-8"
       elevation="8"
@@ -46,8 +40,15 @@
         @click:append-inner="visible = !visible"
       ></v-text-field>
 
-      <v-btn block class="mb-8" color="blue" size="large" variant="tonal">
-        Log In
+      <v-btn
+        block
+        class="mb-8"
+        color="blue"
+        size="large"
+        variant="tonal"
+        href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f4629327dac89bf72282190258ee9716&redirect_uri=http://localhost:8080/main"
+      >
+        Login with Kakao
       </v-btn>
 
       <v-card-text class="text-center">
@@ -65,12 +66,21 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HomePage',
-
   computed: {},
   watch: {},
   setup() {},
-  methods: {},
+  methods: {
+    test() {
+      axios
+        .get('http://localhost:9000/api/oauth2/kakao/authenticate')
+        .then((res) => {
+          console.log(res);
+        });
+    },
+  },
 };
 </script>

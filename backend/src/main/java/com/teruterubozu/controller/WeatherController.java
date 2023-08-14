@@ -11,14 +11,14 @@ import com.teruterubozu.service.weatherService;
 
 @RestController
 public class WeatherController {
-    @Autowired
-    private weatherService weatherService;
+  @Autowired
+  private weatherService weatherService;
 
-    @PostMapping("/api/weather")
-    public Result queryWeather(@RequestBody Latlon weatherDTO) {
-        Latlon grid = weatherService.computeGrid(weatherDTO.getLat(), weatherDTO.getLon());
-        Result result = weatherService.getWeather(grid);
+  @PostMapping("/api/weather")
+  public Result queryWeather(@RequestBody Latlon weatherDTO) {
+    Latlon grid = weatherService.computeGrid(weatherDTO.getLat(), weatherDTO.getLon());
+    Result result = weatherService.getWeather(grid);
 
-        return result;
-    }
+    return result;
+  }
 }
