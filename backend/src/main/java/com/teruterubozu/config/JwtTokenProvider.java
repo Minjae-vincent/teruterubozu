@@ -23,8 +23,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import com.teruterubozu.domain.JwtToken;
 
 @Slf4j
+@Component
 public class JwtTokenProvider {
   private final Key key;
 
@@ -73,7 +77,7 @@ public class JwtTokenProvider {
     return new UsernamePasswordAuthenticationToken(principal, "", authorities);
   }
 
-  private boolean validateToken(String accessToken) {
+  public boolean validateToken(String accessToken) {
     try {
       Jwts.parserBuilder()
           .setSigningKey(key)
