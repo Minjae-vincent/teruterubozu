@@ -1,2 +1,5 @@
 server:
   port: 9000
+
+jwt:
+  secret: 6cGOThTc2d8G4aAF+R34FQ==
