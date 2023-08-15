@@ -14,8 +14,8 @@ import lombok.Getter;
 public class SessionUser implements UserDetails {
   private Users user;
 
-  public SessionUser(Users user2) {
-    this.user = user2;
+  public SessionUser(Users user) {
+    this.user = user;
   }
 
   @Override

@@ -16,7 +16,7 @@ spring:
       ddl-auto: update
 
 jwt:
-  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  secret: dGVydXRlcnVib3p1LXZpbmNlbnQtc2VjcmV0LWtleT09
 
 logging:
   level:
