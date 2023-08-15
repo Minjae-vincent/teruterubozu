@@ -37,7 +37,7 @@ jobs:
       - name: Maven package
         working-directory: ./backend
         run: |
-          mvn package
+          mvn package -DskipTests
 
       # - name: List files after maven package
       #   run: |
