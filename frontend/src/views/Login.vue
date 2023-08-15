@@ -10,6 +10,7 @@
 
       <v-text-field
         density="compact"
+        v-model="email"
         placeholder="Email address"
         prepend-inner-icon="mdi-email-outline"
         variant="outlined"
@@ -32,6 +33,7 @@
 
       <v-text-field
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        v-model="password"
         :type="visible ? 'text' : 'password'"
         density="compact"
         placeholder="Enter your password"
@@ -46,40 +48,45 @@
         color="blue"
         size="large"
         variant="tonal"
-        href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=f4629327dac89bf72282190258ee9716&redirect_uri=http://localhost:8080/main"
+        @click="test()"
       >
-        Login with Kakao
+        Login
       </v-btn>
-
       <v-card-text class="text-center">
-        <a
-          class="text-blue text-decoration-none"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
-        </a>
+        <router-link to="/sign-up">
+          <a
+            class="text-blue text-decoration-none"
+            href="#"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
+          </a>
+        </router-link>
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'HomePage',
-  computed: {},
-  watch: {},
-  setup() {},
+  data: () => {
+    return {
+      email: '',
+      password: '',
+      visible: false,
+    };
+  },
   methods: {
     test() {
-      axios
-        .get('http://localhost:9000/api/oauth2/kakao/authenticate')
-        .then((res) => {
-          console.log(res);
-        });
+      console.log(this.email);
+      console.log(this.password);
+      // axios.post('http://localhost:9000/api/user/login').then((res) => {
+      //   console.log(res);
+      // });
     },
   },
 };
