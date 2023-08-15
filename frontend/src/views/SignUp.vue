@@ -42,6 +42,7 @@
         :disabled="!isValid"
         :loading="isLoading"
         color="deep-purple-accent-4"
+        @click="signUp()"
       >
         Submit
       </v-btn>
@@ -49,6 +50,8 @@
   </v-card>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   name: 'SignUp',
   data: () => ({
@@ -69,5 +72,25 @@ export default {
       required: (v) => !!v || 'This field is required',
     },
   }),
+  methods: {
+    signUp() {
+      this.isLoading = true;
+      axios
+        .post('http://localhost:9000/api/user/signup', {
+          email: this.email,
+          password: this.password,
+          name: this.name,
+        })
+        .then((res) => {
+          this.isLoading = false;
+          console.log(res);
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          this.isLoading = false;
+        });
+    },
+  },
 };
 </script>

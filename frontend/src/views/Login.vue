@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 // import axios from 'axios';
 
 export default {
@@ -82,11 +84,18 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.email);
-      console.log(this.password);
-      // axios.post('http://localhost:9000/api/user/login').then((res) => {
-      //   console.log(res);
-      // });
+      axios
+        .post('http://localhost:9000/api/user/login', {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          alert(res.data);
+          this.$router.push('/main');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
