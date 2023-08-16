@@ -19,13 +19,13 @@ public class LoginController {
   @Autowired
   private UserService userService;
 
-  @PostMapping("/login")
+  @PostMapping("/sign-in")
   public ResponseEntity<JwtToken> loginSuccess(@RequestBody Map<String, String> loginForm) {
     JwtToken token = userService.login(loginForm.get("email"), loginForm.get("password"));
     return ResponseEntity.ok(token);
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/sign-up")
   public Long signup(@RequestBody SignUp signupForm) {
     return userService.signup(signupForm);
   }

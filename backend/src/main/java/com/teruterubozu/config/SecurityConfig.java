@@ -39,7 +39,7 @@ public class SecurityConfig {
         // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
         .csrf(csrf -> csrf.disable())
 
-        .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+        // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
         .exceptionHandling(exceptionHandling -> exceptionHandling
             .accessDeniedHandler(jwtAccessDeniedHandler)
             .authenticationEntryPoint(jwtAuthenticationEntryPoint))
@@ -47,14 +47,15 @@ public class SecurityConfig {
         // authorizeHttpRequest: HttpServletRequest를 사용하는 요청들에 대한 접근제한 설정
         .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
             // 아래 api에 대해서는 오케이~ 하겠다는 설정
-            .requestMatchers("/api/user/signup", "api/user/signin").permitAll()
+            .requestMatchers("/api/user/sign-up", "/api/user/sign-in").permitAll()
             .anyRequest().authenticated())
 
         // 세션을 사용하지 않기 때문에 STATELESS로 설정
         .sessionManagement(
             sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-        .apply(new JwtSecurityConfig(jwtTokenProvider));
+        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
     return http.build();
   }
 }
