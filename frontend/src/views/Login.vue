@@ -71,8 +71,6 @@
 <script>
 import axios from 'axios';
 
-// import axios from 'axios';
-
 export default {
   name: 'HomePage',
   data: () => {
@@ -85,12 +83,13 @@ export default {
   methods: {
     test() {
       axios
-        .post('http://localhost:9000/api/user/login', {
+        .post('http://localhost:9000/api/user/sign-in', {
           email: this.email,
           password: this.password,
         })
         .then((res) => {
-          alert(res.data);
+          localStorage.setItem('accessToken', res.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.refreshToken);
           this.$router.push('/main');
         })
         .catch((err) => {

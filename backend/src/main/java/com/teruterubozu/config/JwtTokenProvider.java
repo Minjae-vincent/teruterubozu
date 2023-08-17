@@ -64,8 +64,6 @@ public class JwtTokenProvider {
   public Authentication getAuthentication(String accessToken) {
     Claims claims = parseClaims(accessToken);
 
-    String tmp = claims.get("auth").toString();
-
     if (claims.get("auth") == null) {
       throw new RuntimeException("Invalid JWT");
     }
