@@ -19,12 +19,27 @@ const routes = [
     path: '/main',
     name: 'Home',
     component: Home,
+    meta: { requiresAuth: true },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log(to.matched.some((record) => record.meta.requiresAuth));
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!accessToken) {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export { router };

@@ -210,25 +210,26 @@ export default {
     },
   },
   setup() {
-    console.log('setup', coords, locatedAt, error, resume, pause);
     return { coords, locatedAt, error, resume, pause };
   },
   methods: {
     getWeather() {
-      console.log(
-        'Get weather param: ',
-        this.coords.latitude,
-        this.coords.longitude
-      );
+      const accessToken = localStorage.getItem('accessToken');
+      console.log(accessToken);
       axios
-        .post('http://localhost:9000/api/weather', {
-          lat: this.coords.latitude,
-          lon: this.coords.longitude,
-        })
-        // .post('http://175.196.170.100:9000/api/weather', {
-        //   lat: this.coords.latitude,
-        //   lon: this.coords.longitude,
-        // })
+        .post(
+          'http://localhost:9000/api/weather',
+          {
+            lat: this.coords.latitude,
+            lon: this.coords.longitude,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+
         .then((res) => {
           if (res.data.data.length != 0) {
             this.weather = {

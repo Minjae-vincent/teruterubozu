@@ -65,10 +65,8 @@ export default {
       length: (len) => (v) =>
         (v || '').length >= len || `Invalid character length, required ${len}`,
       password: (v) =>
-        !!(v || '').match(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
-        ) ||
-        'Password must contain an upper case letter, a numeric character, and a special character',
+        !!(v || '').match(/^(?=.*[a-z])(?=.*\d).+$/) ||
+        'Password must contain a numeric character and a special character',
       required: (v) => !!v || 'This field is required',
     },
   }),
@@ -76,7 +74,7 @@ export default {
     signUp() {
       this.isLoading = true;
       axios
-        .post('http://localhost:9000/api/user/signup', {
+        .post('http://localhost:9000/api/user/sign-up', {
           email: this.email,
           password: this.password,
           name: this.name,
