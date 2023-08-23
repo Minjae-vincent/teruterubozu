@@ -48,7 +48,7 @@
         color="blue"
         size="large"
         variant="tonal"
-        @click="test()"
+        @click="login()"
       >
         Login
       </v-btn>
@@ -81,7 +81,7 @@ export default {
     };
   },
   methods: {
-    test() {
+    login() {
       axios
         .post('http://localhost:9000/api/user/sign-in', {
           email: this.email,
