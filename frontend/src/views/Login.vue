@@ -6,7 +6,9 @@
       max-width="448"
       rounded="lg"
     >
-      <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+      <div class="text-subtitle-1 text-medium-emphasis">
+        spark hyu test 입니다!
+      </div>
 
       <v-text-field
         density="compact"
@@ -48,7 +50,7 @@
         color="blue"
         size="large"
         variant="tonal"
-        @click="test()"
+        @click="login()"
       >
         Login
       </v-btn>
@@ -81,7 +83,7 @@ export default {
     };
   },
   methods: {
-    test() {
+    login() {
       axios
         .post('http://localhost:9000/api/user/sign-in', {
           email: this.email,
